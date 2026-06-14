@@ -630,7 +630,6 @@
                 const isFemale = student.name.trim().endsWith('á') || student.name.trim().endsWith('ová') || student.name.trim().includes('vá');
                 const genderClass = isFemale ? 'female' : 'male';
                 
-                const imgUrl = `https://source.unsplash.com/150x150/?portrait,${isFemale ? 'woman' : 'man'}&sig=${encodeURIComponent(student.name)}`;
 
                 const card = document.createElement('div');
                 card.className = `student-card ${genderClass}`;
