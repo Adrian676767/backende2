@@ -12,7 +12,7 @@ HUGGINGFACE_TOKEN = os.getenv('HUGGINGFACE_TOKEN')
 API_URL = "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-7B-Instruct"
 
 students_db = [
-    {"id": 1, "name": "Marcus Martiš", "age": 16, "vyska": 175,},
+    {"id": 1, "name": "Michal Horváth", "age": 16, "vyska": 175,},
     {"id": 2, "name": "Sofia Kováčová", "age": 15, "vyska": 162},
     {"id": 3, "name": "Jakub Malý", "age": 17, "vyska": 182},
     {"id": 4, "name": "Ema Srncová", "age": 16, "vyska": 168},
