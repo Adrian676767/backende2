@@ -630,8 +630,9 @@
                 const isFemale = student.name.trim().endsWith('á') || student.name.trim().endsWith('ová') || student.name.trim().includes('vá');
                 const genderClass = isFemale ? 'female' : 'male';
                 
-                const seed = student.name.replace(/\s+/g, '').toLowerCase();
-                const imgUrl = `https://api.pravatar.com/150?name=${seed}&img=${student.id % 70}`;
+                const avatarStyle = isFemale ? 'avataaars' : 'avataaars';
+                const seed = student.name.replace(/\s+/g, '');
+                const imgUrl = `https://api.dicebear.com/7.x/${avatarStyle}/svg?seed=${seed}&scale=80`;`;
 
                 const card = document.createElement('div');
                 card.className = `student-card ${genderClass}`;
