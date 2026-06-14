@@ -629,7 +629,8 @@
             studentsList.forEach(student => {
                 const isFemale = student.name.trim().endsWith('á') || student.name.trim().endsWith('ová') || student.name.trim().includes('vá');
                 const genderClass = isFemale ? 'female' : 'male';
-                
+
+                const imgUrl = student.photo;
 
                 const card = document.createElement('div');
                 card.className = `student-card ${genderClass}`;
