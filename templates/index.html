@@ -755,3 +755,78 @@
     </script>
 </body>
 </html>
+</body>
+<script>
+let allStudents = [];
+
+async function fetchStudents() {
+    const res = await fetch('/students');
+    allStudents = await res.json();
+    renderStudents(allStudents);
+}
+
+function renderStudents(students) {
+    const grid = document.getElementById('studentsGrid');
+    grid.innerHTML = '';
+
+    students.forEach(student => {
+
+        const card = document.createElement('div');
+        card.className = 'student-card';
+
+        const imgUrl = student.photo;
+
+        card.innerHTML = `
+            <div style="display:flex;gap:10px;align-items:center;">
+                <div class="avatar-container">
+                    <img src="${imgUrl}" class="student-img">
+                </div>
+
+                <div>
+                    <h3>${student.name}</h3>
+                    <small>ID: ${student.id}</small>
+                </div>
+            </div>
+
+            <p>Vek: ${student.age}</p>
+            <p>Výška: ${student.vyska}</p>
+        `;
+
+        grid.appendChild(card);
+    });
+}
+
+/* SORTY */
+
+document.getElementById('sortNameAZ').addEventListener('click', () => {
+    allStudents.sort((a,b) => a.name.localeCompare(b.name));
+    renderStudents(allStudents);
+});
+
+document.getElementById('sortNameZA').addEventListener('click', () => {
+    allStudents.sort((a,b) => b.name.localeCompare(a.name));
+    renderStudents(allStudents);
+});
+
+document.getElementById('sortYoungest').addEventListener('click', () => {
+    allStudents.sort((a,b) => a.age - b.age);
+    renderStudents(allStudents);
+});
+
+document.getElementById('sortOldest').addEventListener('click', () => {
+    allStudents.sort((a,b) => b.age - a.age);
+    renderStudents(allStudents);
+});
+
+document.getElementById('sortHeightAsc').addEventListener('click', () => {
+    allStudents.sort((a,b) => a.vyska - b.vyska);
+    renderStudents(allStudents);
+});
+
+document.getElementById('sortHeightDesc').addEventListener('click', () => {
+    allStudents.sort((a,b) => b.vyska - a.vyska);
+    renderStudents(allStudents);
+});
+
+fetchStudents();
+</script>
