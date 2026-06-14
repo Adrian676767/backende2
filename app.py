@@ -52,57 +52,79 @@ def chat_ai():
     student_age = student_info.get('age', '16')
     student_vyska = student_info.get('vyska', '170')
     
+    print(f"[DEBUG] Message: {user_message}")
+    print(f"[DEBUG] Student: {student_name}")
+    
     # Špeciálna inštrukcia – AI hrá rolu daného žiaka
     system_instruction = (
-        f"Teraz hráš rolu človeka. Si žiak strednej školy, voláš sa {student_name}, "
-        f"máš {student_age} rokov a meriaš {student_vyska} cm. "
-        f"Odpovedaj priamo v prvej osobe (ako 'ja'), hovor uvoľnene, ako mladý študent, používaj emojis. "
-        f"Komunikuj výhradne po slovensky a primerane k svojmu veku. Nepíš dlhé texty, odpovedaj stručne a k veci."
+        f"Teraz si študent strednej školy. Voláš sa {student_name}, máš {student_age} rokov a meriaš {student_vyska} cm. "
+        f"Odpovedaj v prvej osobe ako 'ja'. Hovor uvoľnene, priateľsky, ako mladý študent. Používaj emojis. "
+        f"Komunikuj iba po slovensky. Nepíš dlhé texty - stručne a k veci!"
     )
     
-    prompt = f"<|im_start|>system\n{system_instruction}<|im_end|>\n<|im_start|>user\n{user_message}<|im_end|>\n<|im_start|>assistant\n"
-    
     try:
-        if not HUGGINGFACE_TOKEN:
+        GROQ_API_KEY = os.getenv('GROQ_API_KEY')
+        
+        if not GROQ_API_KEY:
+            print("[ERROR] GROQ_API_KEY je prázdny!")
             return jsonify({
-                "response": "⚠️ HuggingFace token nie je nastavený! Skontroluj environment premenné v Render.",
-                "error": "HUGGINGFACE_TOKEN missing"
+                "response": "⚠️ API key nie je nastavený! 😅"
             }), 500
         
+        import requests
+        
         headers = {
-            "Authorization": f"Bearer {HUGGINGFACE_TOKEN}"
+            "Authorization": f"Bearer {GROQ_API_KEY}",
+            "Content-Type": "application/json"
         }
         
         payload = {
-            "inputs": prompt,
-            "parameters": {
-                "max_new_tokens": 150,
-                "temperature": 0.8,
-                "return_full_text": False
-            }
+            "model": "mixtral-8x7b-32768",  # Rýchly a silný model
+            "messages": [
+                {"role": "system", "content": system_instruction},
+                {"role": "user", "content": user_message}
+            ],
+            "max_tokens": 150,
+            "temperature": 0.8
         }
         
-        response = requests.post(API_URL, json=payload, headers=headers, timeout=15)
+        print("[INFO] Posielam na Groq API...")
+        response = requests.post(
+            "https://api.groq.com/openai/v1/chat/completions",
+            json=payload,
+            headers=headers,
+            timeout=30
+        )
         
-        # Overenie chýb
-        if response.status_code != 200:
-            print(f"HuggingFace API chyba: {response.status_code} - {response.text}")
+        print(f"[INFO] Groq status: {response.status_code}")
+        
+        if response.status_code == 401:
+            print("[ERROR] Groq token je neplatný!")
             return jsonify({
-                "response": "Prepáč, model je teraz zaneprázdnený. Skús to znova za chvíľu! 😅"
+                "response": "❌ API key je neplatný! 😅"
+            }), 401
+        
+        if response.status_code != 200:
+            print(f"[ERROR] Groq chyba: {response.status_code}")
+            print(f"[ERROR] Response: {response.text}")
+            return jsonify({
+                "response": "⚠️ Chyba pri komuniácií s AI. Skús to neskôr! 🤖"
             })
         
         result = response.json()
+        ai_response = result['choices'][0]['message']['content'].strip()
         
-        if isinstance(result, list) and len(result) > 0:
-            ai_response = result[0].get('generated_text', '').strip()
-        else:
+        if not ai_response:
             ai_response = "Hmm, neviem si spomeniť čo si vravel... 🤔"
-            
+        
+        print(f"[INFO] Response: {ai_response}")
+        
     except requests.Timeout:
-        ai_response = "Užas, server je pomalý. Skús to znova! ⏳"
+        print("[ERROR] Request timeout")
+        ai_response = "Server je pomalý, skús to neskôr! ⏳"
     except Exception as e:
-        print(f"Chyba: {e}")
-        ai_response = "Uups, niečo sa pokazilo! Skús to znova prosím. 😅"
+        print(f"[ERROR] Exception: {str(e)}")
+        ai_response = f"Chyba: {str(e)[:30]} 😅"
     
     return jsonify({"response": ai_response})
 
