@@ -12,17 +12,17 @@ HUGGINGFACE_TOKEN = os.getenv('HUGGINGFACE_TOKEN')
 API_URL = "https://api-inference.huggingface.co/models/Qwen/Qwen2.5-7B-Instruct"
 
 students_db = [
-    {"id": 1, "name": "Michal Horváth", "age": 16, "vyska": 175,},
-    {"id": 2, "name": "Sofia Kováčová", "age": 15, "vyska": 162},
-    {"id": 3, "name": "Jakub Malý", "age": 17, "vyska": 182},
-    {"id": 4, "name": "Ema Srncová", "age": 16, "vyska": 168},
-    {"id": 5, "name": "Matúš Veľký", "age": 15, "vyska": 170},
-    {"id": 6, "name": "Lucia Malá", "age": 17, "vyska": 160},
-    {"id": 7, "name": "David Novák", "age": 16, "vyska": 178},
-    {"id": 8, "name": "Peter Tóth", "age": 15, "vyska": 165},
-    {"id": 9, "name": "Nela Szabóová", "age": 17, "vyska": 172},
-    {"id": 10, "name": "Adam Molnár", "age": 16, "vyska": 180},
-    {"id": 11, "name": "Nina Balážová", "age": 15, "vyska": 158}
+    {"id": 1, "name": "Michal Horváth", "age": 16, "vyska": 175, "photo": "/static/images/michal.jpg"},
+    {"id": 2, "name": "Sofia Kováčová", "age": 15, "vyska": 162, "photo": "/static/images/sofia.jpg"},
+    {"id": 3, "name": "Jakub Malý", "age": 17, "vyska": 182, "photo": "/static/images/jakub.jpg"},
+    {"id": 4, "name": "Ema Srncová", "age": 16, "vyska": 168, "photo": "/static/images/ema.jpg"},
+    {"id": 5, "name": "Matúš Veľký", "age": 15, "vyska": 170, "photo": "/static/images/matus.jpg"},
+    {"id": 6, "name": "Lucia Malá", "age": 17, "vyska": 160, "photo": "/static/images/lucia.jpg"},
+    {"id": 7, "name": "David Novák", "age": 16, "vyska": 178, "photo": "/static/images/david.jpg"},
+    {"id": 8, "name": "Peter Tóth", "age": 15, "vyska": 165, "photo": "/static/images/peter.jpg"},
+    {"id": 9, "name": "Nela Szabóová", "age": 17, "vyska": 172, "photo": "/static/images/nela.jpg"},
+    {"id": 10, "name": "Adam Molnár", "age": 16, "vyska": 180, "photo": "/static/images/adam.jpg"},
+    {"id": 11, "name": "Nina Balážová", "age": 15, "vyska": 158, "photo": "/static/images/nina.jpg"}
 ]
 
 @app.route('/')
