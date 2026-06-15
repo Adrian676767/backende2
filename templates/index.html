@@ -620,7 +620,7 @@
             const isFemale = student.name.trim().endsWith('á') || student.name.trim().endsWith('ová') || student.name.trim().includes('vá');
             const genderClass = isFemale ? 'female' : 'male';
             
-            const imgUrl = `https://loremflickr.com/150/150/portrait?lock=${encodeURIComponent(student.name)}`;
+            const imgUrl = `https://loremflickr.com/150/150/portrait?random=${student.id}`;
 
             const card = document.createElement('div');
             card.className = `student-card ${genderClass}`;
