@@ -79,7 +79,7 @@ def chat_ai():
         }
         
         payload = {
-            "model": "mixtral-8x7b-32768",  # Rýchly a silný model
+            "model": "openai/gpt-oss-120b",  # Rýchly a silný model
             "messages": [
                 {"role": "system", "content": system_instruction},
                 {"role": "user", "content": user_message}
